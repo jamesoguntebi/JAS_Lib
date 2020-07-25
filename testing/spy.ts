@@ -40,8 +40,8 @@ export default class Spy<TObj, TProp extends keyof TObj> {
   }
 
   toString() {
-    const objectString = this.object['constructor'].name === 'Function' ?
-        this.object['name'] : this.object['constructor'].name;
+    const objectString = this.object['constructor']['name'] === 'Function' ?
+        this.object['name'] : this.object['constructor']['name'];
     return `${objectString}.${this.property}`;
   }
 }
