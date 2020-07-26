@@ -1,6 +1,6 @@
 /// <reference types="google-apps-script" />
-declare module "spy" {
-    export default class Spy<TObj, TProp extends keyof TObj> {
+declare module "testing/spy" {
+    export class Spy<TObj, TProp extends keyof TObj> {
         private readonly object;
         private readonly property;
         static isSpy(object: unknown): object is {
@@ -28,17 +28,18 @@ declare module "spy" {
         returnValue(retValue: unknown): void;
     }
 }
-declare module "util" {
+declare module "testing/util" {
     export default class Util {
         static isPOJO(arg: unknown): arg is Pojo;
         static equals<U>(a: U, b: U): boolean;
         static arrayEquals(arr1: unknown[], arr2: unknown[]): boolean;
         static pojoEquals(obj1: Pojo, obj2: Pojo): boolean;
+        static isError(e: unknown): e is Error;
     }
     type Pojo = Record<string, unknown>;
 }
-declare module "expectation" {
-    export default class Expectation<T> {
+declare module "testing/expectation" {
+    export class Expectation<T> {
         private readonly actual;
         private readonly isInverse;
         /** The inverse of this expectation. */
@@ -60,10 +61,10 @@ declare module "expectation" {
         constructor(argsMatcher: (args: unknown[]) => boolean);
     }
 }
-declare module "tester" {
-    import Spy from "spy";
-    import Expectation, { SpyMatcher } from "expectation";
-    export default class Tester {
+declare module "testing/tester" {
+    import { Spy } from "testing/spy";
+    import { Expectation, SpyMatcher } from "testing/expectation";
+    export class Tester {
         private readonly verbose;
         static readonly ERROR_NAME = "TesterError";
         private static readonly INDENT_PER_LEVEL;
@@ -111,53 +112,24 @@ declare module "tester" {
         output: string[];
     }
 }
-declare module "_simple_test" {
-    /** For testing the test framework. */
-    export default abstract class SimpleTest {
-        protected readonly output: string[];
-        private successes;
-        private failures;
-        constructor();
-        run(): void;
-        finish(): string[];
-        /**
-         * @param testFn A function that should throw if the test unit fails. It will
-         *     be bound to `this`, allowing callers to conviently call
-         *     `runUnit('description', this.test1)`.
-         */
-        private runUnit;
-        /**
-         * Throws an error that the Tester class always catches and rethrows, so that
-         * when testing Tester, failures aren't suppressed.
-         */
-        protected fail(): void;
-        protected failIfThrows(fn: Function): void;
-        protected failIfNotThrows(fn: Function): void;
+declare module "testing/testrunner" {
+    import { Tester } from "testing/tester";
+    export function runTests(tests: Test[], options: TestRunnerOptions): string;
+    export class TestRunner {
+        static run(tests: Test[], { suppressLogs, showSuccesses, testerClass, }: TestRunnerOptions): void;
+        private static getStats;
+    }
+    export interface Test {
+        name: string;
+        run: (t: Tester) => void;
+    }
+    export interface TestRunnerOptions {
+        suppressLogs?: boolean;
+        showSuccesses?: boolean;
+        testerClass?: typeof Tester;
     }
 }
-declare module "expectation_test" {
-    import SimpleTest from "_simple_test";
-    export default class ExpectationTest extends SimpleTest {
-        private createSpy;
-        testToEqual(): void;
-        testNotToEqual(): void;
-        testToThrow(): void;
-        testNotToThrow(): void;
-        testToContain(): void;
-        testNotToContain(): void;
-        testToHaveBeenCalled(): void;
-        testNotToHaveBeenCalled(): void;
-        testToHaveBeenCalledTimes(): void;
-        testNotToHaveBeenCalledTimes(): void;
-        testToHaveBeenCalledLike(): void;
-        testNotToHaveBeenCalledLike(): void;
-        testToHaveBeenCalledWith(): void;
-        testNotToHaveBeenCalledWith(): void;
-        testToBeUndefined(): void;
-        testNotToBeUndefined(): void;
-    }
-}
-declare module "fakes" {
+declare module "testing/fakes" {
     type GmailLabel = GoogleAppsScript.Gmail.GmailLabel;
     export class FakeGmailApp {
         private static labelMap;
@@ -184,15 +156,71 @@ declare module "fakes" {
         private readonly properties;
         deleteAllProperties(): this;
         deleteProperty(key: string): this;
-        getKeys(): any;
+        getKeys(): string[];
         getProperties(): Record<string, string>;
         getProperty(key: string): string;
         setProperties(properties: Record<string, string>, deleteAllOthers?: boolean): void;
         setProperty(key: string, value: string): void;
     }
 }
-declare module "spy_test" {
-    import SimpleTest from "_simple_test";
+declare module "apihelper" {
+    export { Spy } from "testing/spy";
+    export { Test, TestRunner, TestRunnerOptions } from "testing/testrunner";
+    export { Tester } from "testing/tester";
+    export * from "testing/fakes";
+}
+declare module "jas_api" {
+    import * as JASLib from "apihelper";
+    export { JASLib };
+}
+declare module "testing/_simple_test" {
+    /** For testing the test framework. */
+    export default abstract class SimpleTest {
+        protected readonly output: string[];
+        private successes;
+        private failures;
+        constructor();
+        run(): void;
+        finish(): string[];
+        /**
+         * @param testFn A function that should throw if the test unit fails. It will
+         *     be bound to `this`, allowing callers to conviently call
+         *     `runUnit('description', this.test1)`.
+         */
+        private runUnit;
+        /**
+         * Throws an error that the Tester class always catches and rethrows, so that
+         * when testing Tester, failures aren't suppressed.
+         */
+        protected fail(): void;
+        protected failIfThrows(fn: Function): void;
+        protected failIfNotThrows(fn: Function): void;
+    }
+}
+declare module "testing/expectation_test" {
+    import SimpleTest from "testing/_simple_test";
+    export default class ExpectationTest extends SimpleTest {
+        private createSpy;
+        testToEqual(): void;
+        testNotToEqual(): void;
+        testToThrow(): void;
+        testNotToThrow(): void;
+        testToContain(): void;
+        testNotToContain(): void;
+        testToHaveBeenCalled(): void;
+        testNotToHaveBeenCalled(): void;
+        testToHaveBeenCalledTimes(): void;
+        testNotToHaveBeenCalledTimes(): void;
+        testToHaveBeenCalledLike(): void;
+        testNotToHaveBeenCalledLike(): void;
+        testToHaveBeenCalledWith(): void;
+        testNotToHaveBeenCalledWith(): void;
+        testToBeUndefined(): void;
+        testNotToBeUndefined(): void;
+    }
+}
+declare module "testing/spy_test" {
+    import SimpleTest from "testing/_simple_test";
     export default class SpyTest extends SimpleTest {
         private createSpy;
         testAssertSpyFailsNonSpies(): void;
@@ -207,8 +235,8 @@ declare module "spy_test" {
         testAndReturnValue(): void;
     }
 }
-declare module "tester_test" {
-    import SimpleTest from "_simple_test";
+declare module "testing/tester_test" {
+    import SimpleTest from "testing/_simple_test";
     export default class TesterTest extends SimpleTest {
         private createFail;
         private createSuccess;
@@ -233,25 +261,9 @@ declare module "tester_test" {
         testSpyOn(): void;
     }
 }
-declare module "simple_test_runner" {
+declare module "testing/simple_test_runner" {
     export function runFrameworkTests(): string;
     export default class SimpleTestRunner {
         static run(): string;
-    }
-}
-declare module "testrunner" {
-    import Tester from "tester";
-    export function runTests(tests: Test[], options: TestRunnerOptions): string;
-    export default class TestRunner {
-        static run(tests: Test[], { suppressLogs, verbose, }: TestRunnerOptions): void;
-        private static getStats;
-    }
-    export interface Test {
-        name: string;
-        run: (t: Tester) => void;
-    }
-    export interface TestRunnerOptions {
-        suppressLogs?: boolean;
-        verbose?: boolean;
     }
 }

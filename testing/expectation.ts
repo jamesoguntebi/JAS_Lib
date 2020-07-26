@@ -1,7 +1,7 @@
-import Spy from "./spy";
+import { Spy } from "./spy";
 import Util from "./util";
 
-export default class Expectation<T> {
+export class Expectation<T> {
   /** The inverse of this expectation. */
   readonly not: Expectation<T>;
   readonly notString: string;
@@ -30,14 +30,14 @@ export default class Expectation<T> {
     }
 
     const errorMatchesExpectedMessage = (e: unknown): boolean => {
-      if (!(e instanceof Error) || !expectedErrorMessage) return false;
-      return (e.stack || e.message || '')
+      if (!Util.isError(e) || !expectedErrorMessage) return false;
+      return (e.message || '')
         .toLowerCase()
         .includes(expectedErrorMessage.toLowerCase());
     };
 
     const fail = (e: unknown, prefixMessage: string) => {
-      if (e instanceof Error) {
+      if (Util.isError(e)) {
         Expectation.augmentAndThrow(e, prefixMessage);
       } else {
         throw new Error(prefixMessage);
@@ -54,7 +54,8 @@ export default class Expectation<T> {
           throw new Error('Expected function to throw.');
         }
         if (expectedErrorMessage && !errorMatchesExpectedMessage(e)) {
-          fail(e, `Expected error to include '${expectedErrorMessage}'`);
+          fail(e, `Expected error message '${e.message || ''}' to include '${
+              expectedErrorMessage}'.`);
         }
       }
     } else {

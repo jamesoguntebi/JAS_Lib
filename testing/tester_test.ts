@@ -1,5 +1,5 @@
 import SimpleTest from "./_simple_test";
-import Tester from "./tester";
+import { Tester } from "./tester";
 
 export default class TesterTest extends SimpleTest {
   private createFail(): () => void {

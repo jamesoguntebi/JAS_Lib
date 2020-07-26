@@ -1,6 +1,6 @@
 import SimpleTest from "./_simple_test";
-import Spy from "./spy";
-import Expectation, { SpyMatcher } from "./expectation";
+import { Spy } from "./spy";
+import { Expectation, SpyMatcher } from "./expectation";
 
 export default class ExpectationTest extends SimpleTest {
   private createSpy(targetFn?: Function):

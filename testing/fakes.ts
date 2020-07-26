@@ -62,9 +62,15 @@ interface GmailLabelParams {
 
 class FakeGmailThread extends Fake<GmailThread> {
   private labels: Set<string> = new Set();
+  private readonly id: string;
 
   constructor(private readonly params: GmailThreadParams) {
     super();
+    this.id = String(Math.random());
+  }
+
+  getId(): string {
+    return this.id;
   }
 
   addLabel(label: FakeGmailLabel) {
@@ -133,9 +139,7 @@ export class FakeProperties {
   }
   getProperties(): Record<string, string> {
     const obj: Record<string, string> = {};
-    for (const [key, value] of this.properties) {
-      obj[key] = value;
-    }
+    for (const [key, value] of this.properties) obj[key] = value;
     return obj;
   }
   getProperty(key: string): string {

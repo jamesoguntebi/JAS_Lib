@@ -1,4 +1,4 @@
-import Spy from "./spy";
+import { Spy } from "./spy";
 import SimpleTest from "./_simple_test";
 import Util from "./util";
 

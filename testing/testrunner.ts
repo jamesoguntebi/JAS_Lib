@@ -1,14 +1,15 @@
-import Tester from "./tester";
+import { Tester } from "./tester";
 
 export function runTests(tests: Test[], options: TestRunnerOptions) {
   TestRunner.run(tests, options);
   return Logger.getLog();
 }
 
-export default class TestRunner {
+export class TestRunner {
   static run(tests: Test[], {
     suppressLogs = true,
-    verbose = true,
+    showSuccesses = true,
+    testerClass = Tester,
   }: TestRunnerOptions) {
     // Suppress logs inside tests.
     const storedLogFn = Logger.log;
@@ -25,7 +26,7 @@ export default class TestRunner {
 
     for (const test of tests) {
       const testStartTime = Date.now();
-      const tester = new Tester(verbose);
+      const tester = new testerClass(showSuccesses);
       test.run(tester);
       const {successCount, failureCount, output} = tester.finish();
       successTotal += successCount;
@@ -37,7 +38,7 @@ export default class TestRunner {
         outputTotal.push(
             `${test.name} - ${failureCount} failures ${runTime}`);
       }
-      if (failureCount || verbose) outputTotal.push(...output, '');
+      if (failureCount || showSuccesses) outputTotal.push(...output, '');
     }
 
     outputTotal.push('');
@@ -74,5 +75,6 @@ export interface Test {
 
 export interface TestRunnerOptions {
   suppressLogs?: boolean;
-  verbose?: boolean;
+  showSuccesses?: boolean;
+  testerClass?: typeof Tester;
 }

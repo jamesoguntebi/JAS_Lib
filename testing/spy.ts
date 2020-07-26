@@ -1,4 +1,4 @@
-export default class Spy<TObj, TProp extends keyof TObj> {
+export class Spy<TObj, TProp extends keyof TObj> {
   static isSpy(object: unknown): object is {[Spy.MARKER]: Spy<any, any>} {
     return !!(object as {[Spy.MARKER]?: unknown})[Spy.MARKER];
   }

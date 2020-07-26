@@ -1,7 +1,8 @@
-import Spy from './spy';
-import Expectation, { SpyMatcher } from './expectation';
+import { Spy } from './spy';
+import { Expectation, SpyMatcher } from './expectation';
+import Util from './util';
 
-export default class Tester {
+export class Tester {
   static readonly ERROR_NAME = 'TesterError';
   private static readonly INDENT_PER_LEVEL = 2;
   private indentation = Tester.INDENT_PER_LEVEL;
@@ -143,7 +144,7 @@ export default class Tester {
 
       success = false;
       this.indent();
-      failureOutput = e instanceof Error ?
+      failureOutput = Util.isError(e) ?
           e.stack || e.message :
           'Exception during test execution. No error object.';
       this.dedent();

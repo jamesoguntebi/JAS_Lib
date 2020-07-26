@@ -3,7 +3,7 @@
  * alphabetically. https://github.com/google/clasp/issues/72
  */
 
-import Tester from "./tester";
+import { Tester } from "./tester";
 
 /** For testing the test framework. */
 export default abstract class SimpleTest {

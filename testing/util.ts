@@ -40,6 +40,10 @@ export default class Util {
     }
     return true;
   }
+  
+  static isError(e: unknown): e is Error {
+    return e instanceof Error || e.constructor.name.endsWith('Error');
+  }
 }
 
 type Pojo = Record<string, unknown>;
