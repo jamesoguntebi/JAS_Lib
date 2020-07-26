@@ -2,3 +2,6 @@
 *.d.ts
 api*
 .clasprc.json
+.git*
+.git/*
+.git/**/*
