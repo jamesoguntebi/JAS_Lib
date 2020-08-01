@@ -1,3 +1,4 @@
 node_modules/
 creds.json
 .clasprc.json
+jas_lib.js
