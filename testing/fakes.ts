@@ -61,7 +61,7 @@ interface GmailLabelParams {
 }
 
 class FakeGmailThread extends Fake<GmailThread> {
-  private labels: Set<string> = new Set();
+  private labels: Map<string, FakeGmailLabel> = new Map();
   private readonly id: string;
 
   constructor(private readonly params: GmailThreadParams) {
@@ -74,13 +74,17 @@ class FakeGmailThread extends Fake<GmailThread> {
   }
 
   addLabel(label: FakeGmailLabel) {
-    this.labels.add(label.getName());
+    this.labels.set(label.getName(), label);
     label.addThread(this);
   }
 
   removeLabel(label: FakeGmailLabel) {
     this.labels.delete(label.getName());
     label.removeThread(this);
+  }
+
+  getLabels(): FakeGmailLabel[] {
+    return Array.from(this.labels.values());
   }
 
   getMessages(): GmailMessage[] {
