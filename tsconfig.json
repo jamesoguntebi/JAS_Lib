@@ -4,6 +4,10 @@
     "downlevelIteration": true,
     "lib": ["ES2017"],
     "module": "System",
-    "outFile": "jas_lib.js"
-  }
+    "outFile": "jas_lib.js",
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "jas_lib.d.ts"
+  ]
 }
