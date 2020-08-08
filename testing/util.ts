@@ -1,4 +1,4 @@
-export default class Util {
+export class Util {
   static isPOJO(arg: unknown): arg is Pojo {
     if (arg == null || typeof arg !== 'object') {
       return false;
@@ -28,7 +28,8 @@ export default class Util {
   static pojoEquals(obj1: Pojo, obj2: Pojo): boolean {
     // Remove keys that have undefined values.
     const clearUndefinedValues = (obj: Pojo) => {
-      for (const key in obj) if (obj[key] === undefined) delete obj[key];
+      for (const key in obj)
+        if (obj[key] === undefined) delete obj[key];
     };
     clearUndefinedValues(obj1);
     clearUndefinedValues(obj2);
@@ -40,7 +41,7 @@ export default class Util {
     }
     return true;
   }
-  
+
   static isError(e: unknown): e is Error {
     return e instanceof Error || e.constructor.name.endsWith('Error');
   }

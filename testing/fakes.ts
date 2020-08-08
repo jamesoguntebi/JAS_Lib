@@ -12,8 +12,11 @@ export class FakeGmailApp {
   private static labelMap: Map<string, FakeGmailLabel>;
 
   static setData(params: GmailAppParams) {
-    FakeGmailApp.labelMap = new Map((params.labels ?? []).map(
-        labelParams => [labelParams.name, new FakeGmailLabel(labelParams)]));
+    FakeGmailApp.labelMap = new Map(
+        (params.labels ?? [])
+            .map(
+                labelParams =>
+                    [labelParams.name, new FakeGmailLabel(labelParams)]));
   }
 
   static getUserLabelByName(name: string): GmailLabel|null {

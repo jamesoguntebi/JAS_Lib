@@ -21,9 +21,9 @@ export class Spy<TObj, TProp extends keyof TObj> {
     this.and = new SpyAction(this.storedProperty as unknown as Function);
 
     const newFunctionProperty = ((...params: unknown[]) => {
-      this.calls.push(params);
-      return this.and.call(params);
-    }) as unknown as TObj[TProp];
+                                  this.calls.push(params);
+                                  return this.and.call(params);
+                                }) as unknown as TObj[TProp];
     newFunctionProperty[Spy.MARKER] = this;
 
     object[property] = newFunctionProperty;
@@ -43,7 +43,8 @@ export class Spy<TObj, TProp extends keyof TObj> {
 
   toString() {
     const objectString = this.object['constructor']['name'] === 'Function' ?
-        this.object['name'] : this.object['constructor']['name'];
+        this.object['name'] :
+        this.object['constructor']['name'];
     return `${objectString}.${this.property}`;
   }
 }
@@ -55,7 +56,7 @@ export class SpyAction {
   constructor(private readonly defaultImplementation: Function) {}
 
   call(params: unknown[]): unknown {
-    switch(this.actionType) {
+    switch (this.actionType) {
       case SpyActionType.CALL_THROUGH:
         return this.defaultImplementation(...params);
       case SpyActionType.DO_NOTHING:

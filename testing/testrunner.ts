@@ -1,4 +1,4 @@
-import { Tester } from "./tester";
+import {Tester} from './tester';
 
 export function runTests(tests: Test[], options: TestRunnerOptions) {
   TestRunner.run(tests, options);
@@ -33,10 +33,9 @@ export class TestRunner {
       failureTotal += failureCount;
       const runTime = `(in ${Date.now() - testStartTime} ms)`;
       if (!failureCount) {
-        outputTotal.push( `${test.name} ✓ ${runTime}`);
+        outputTotal.push(`${test.name} ✓ ${runTime}`);
       } else {
-        outputTotal.push(
-            `${test.name} - ${failureCount} failures ${runTime}`);
+        outputTotal.push(`${test.name} - ${failureCount} failures ${runTime}`);
       }
       if (failureCount || showSuccesses) outputTotal.push(...output, '');
     }
@@ -56,13 +55,12 @@ export class TestRunner {
       let page = 1;
       while (outputTotal.length) {
         Logger.log([
-          `Testing ... page ${page++}/${pages}`,
-          ...outputTotal.splice(0, 100)
+          `Testing ... page ${page++}/${pages}`, ...outputTotal.splice(0, 100)
         ].join('\n'));
       }
     }
   }
-  
+
   private static getStats(success: number, failure: number): string {
     return `${success + failure} run, ${success} pass, ${failure} fail`;
   }

@@ -1,4 +1,6 @@
-export { Spy } from "./testing/spy";
-export { Test, TestRunner, TestRunnerOptions } from "./testing/testrunner";
-export { Tester } from "./testing/tester"
-export * from "./testing/fakes"
+export {Spy} from './testing/spy';
+export {Tester} from './testing/tester'
+export {Test, TestRunner, TestRunnerOptions} from './testing/testrunner';
+export {Util} from './testing/util'
+
+export * from './testing/fakes'

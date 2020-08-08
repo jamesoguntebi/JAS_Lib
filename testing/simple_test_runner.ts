@@ -1,7 +1,7 @@
-import ExpectationTest from "./expectation_test";
-import SimpleTest from "./_simple_test";
-import SpyTest from "./spy_test";
-import TesterTest from "./tester_test";
+import SimpleTest from './_simple_test';
+import ExpectationTest from './expectation_test';
+import SpyTest from './spy_test';
+import TesterTest from './tester_test';
 
 export function runFrameworkTests(): string {
   return SimpleTestRunner.run();

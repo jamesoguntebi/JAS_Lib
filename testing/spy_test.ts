@@ -1,6 +1,6 @@
-import { Spy } from "./spy";
-import SimpleTest from "./_simple_test";
-import Util from "./util";
+import SimpleTest from './_simple_test';
+import {Spy} from './spy';
+import {Util} from './util';
 
 export default class SpyTest extends SimpleTest {
   private createSpy(targetFn?: Function):
@@ -14,7 +14,8 @@ export default class SpyTest extends SimpleTest {
     try {
       Spy.assertSpy(object.notASpy);
       this.fail();
-    } catch {}
+    } catch {
+    }
   }
 
   testAssertSpyPassesSpies() {
@@ -44,7 +45,7 @@ export default class SpyTest extends SimpleTest {
     if (!Util.equals(calls[0], [42, 'DiscMage', null])) this.fail();
     if (!Util.equals(calls[1], [undefined, [1, 5, 9]])) this.fail();
     if (!Util.equals(
-        calls[2], [0, {a: 'apples', b: 'bananas', c: 'carrots'}])) {
+            calls[2], [0, {a: 'apples', b: 'bananas', c: 'carrots'}])) {
       this.fail();
     }
   }
@@ -56,7 +57,8 @@ export default class SpyTest extends SimpleTest {
     try {
       Spy.assertSpy(spiedFn);
       this.fail();
-    } catch {}
+    } catch {
+    }
   }
 
   testClearCalls() {

@@ -1,5 +1,5 @@
-import SimpleTest from "./_simple_test";
-import { Tester } from "./tester";
+import SimpleTest from './_simple_test';
+import {Tester} from './tester';
 
 export default class TesterTest extends SimpleTest {
   private createFail(): () => void {
@@ -85,7 +85,7 @@ export default class TesterTest extends SimpleTest {
     t.describe('describe with befores and no afters', () => {
       t.beforeAll(getCaller(`d6-ba1`));
       t.beforeAll(getCaller(`d6-ba2`));
-  
+
       t.beforeEach(getCaller(`d6-be1`));
       t.beforeEach(getCaller(`d6-be2`));
 
@@ -94,7 +94,7 @@ export default class TesterTest extends SimpleTest {
     t.describe('describe with after and no befores', () => {
       t.afterEach(getCaller(`d7-ae1`));
       t.afterEach(getCaller(`d7-ae2`));
-  
+
       t.afterAll(getCaller(`d7-aa1`));
       t.afterAll(getCaller(`d7-aa2`));
 
@@ -230,7 +230,7 @@ export default class TesterTest extends SimpleTest {
       this.failIfNotThrows(() => t.it('t1.1', () => {}));
     });
   }
-  
+
   testXit() {
     const t = new Tester();
 
@@ -275,7 +275,7 @@ export default class TesterTest extends SimpleTest {
         t.spyOn(object, 'targetFn').and.returnValue('b1');
         if (object.targetFn() !== 'b1') this.fail();
       });
-  
+
       if (object.targetFn() !== 'b') this.fail();
 
       t.spyOn(object, 'targetFn').and.returnValue('c');

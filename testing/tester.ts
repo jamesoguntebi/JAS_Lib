@@ -1,6 +1,6 @@
-import { Spy } from './spy';
-import { Expectation, SpyMatcher } from './expectation';
-import Util from './util';
+import {Expectation, SpyMatcher} from './expectation';
+import {Spy} from './spy';
+import {Util} from './util';
 
 export class Tester {
   static readonly ERROR_NAME = 'TesterError';
@@ -52,11 +52,11 @@ export class Tester {
         lastDescriptionContext;
 
     this.currentDescriptionContext =
-        this.descriptionContextStack[this.descriptionContextStack.length - 1]; 
+        this.descriptionContextStack[this.descriptionContextStack.length - 1];
 
     this.currentDescriptionContext.successCount += successCount;
     this.currentDescriptionContext.failureCount += failureCount;
-    
+
     if (this.verbose || failureCount) {
       const indentedDescription =
           Array(this.indentation + 1).join(' ') + description;
@@ -186,7 +186,7 @@ export class Tester {
     } else {
       this.currentDescriptionContext.spies.push(spy);
     }
-    
+
     return spy;
   }
 
@@ -204,8 +204,8 @@ export class Tester {
 
     return {
       successCount: this.currentDescriptionContext.successCount,
-      failureCount: this.currentDescriptionContext.failureCount,
-      output: this.currentDescriptionContext.output, 
+          failureCount: this.currentDescriptionContext.failureCount,
+          output: this.currentDescriptionContext.output,
     }
   }
 
@@ -245,14 +245,10 @@ export class Tester {
 }
 
 export interface DescriptionContext {
-  beforeAlls: Array<() => void>,
-  beforeEaches: Array<() => void>,
-  afterEaches: Array<() => void>,
-  afterAlls: Array<() => void>,
-  beforeAllsCalled?: boolean;
-  successCount: number,
-  failureCount: number,
-  output: string[];
+  beforeAlls: Array<() => void>, beforeEaches: Array<() => void>,
+      afterEaches: Array<() => void>, afterAlls: Array<() => void>,
+      beforeAllsCalled?: boolean;
+  successCount: number, failureCount: number, output: string[];
   spies: Spy<any, any>[];
 }
 
@@ -261,7 +257,5 @@ export interface ItContext {
 }
 
 export interface TestResult {
-  successCount: number,
-  failureCount: number,
-  output: string[],
+  successCount: number, failureCount: number, output: string[],
 }

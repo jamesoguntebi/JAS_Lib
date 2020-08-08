@@ -1,6 +1,6 @@
-import SimpleTest from "./_simple_test";
-import { Spy } from "./spy";
-import { Expectation, SpyMatcher } from "./expectation";
+import SimpleTest from './_simple_test';
+import {Expectation, SpyMatcher} from './expectation';
+import {Spy} from './spy';
 
 export default class ExpectationTest extends SimpleTest {
   private createSpy(targetFn?: Function):
@@ -20,7 +20,9 @@ export default class ExpectationTest extends SimpleTest {
   }
 
   testToThrow() {
-    const throwA = () => {throw new Error('a')};
+    const throwA = () => {
+      throw new Error('a')
+    };
     const noThrow = () => {};
 
     this.failIfThrows(() => new Expectation(throwA).toThrow());
@@ -31,7 +33,9 @@ export default class ExpectationTest extends SimpleTest {
   }
 
   testNotToThrow() {
-    const throwA = () => {throw new Error('a')};
+    const throwA = () => {
+      throw new Error('a')
+    };
     const noThrow = () => {};
 
     this.failIfThrows(() => new Expectation(noThrow).not.toThrow());
@@ -52,8 +56,8 @@ export default class ExpectationTest extends SimpleTest {
 
     this.failIfNotThrows(() => new Expectation(11).toContain(10));
     this.failIfNotThrows(() => new Expectation({a: 'apples'}).toContain('a'));
-    this.failIfNotThrows(() => new Expectation({a: 'apples'})
-        .toContain('apples'));
+    this.failIfNotThrows(
+        () => new Expectation({a: 'apples'}).toContain('apples'));
   }
 
   testNotToContain() {
@@ -69,7 +73,7 @@ export default class ExpectationTest extends SimpleTest {
     object.notASpy();
     this.failIfNotThrows(
         () => new Expectation(object.notASpy).toHaveBeenCalled());
-    
+
     const {spiedFn: calledSpyFn} = this.createSpy();
     const {spiedFn: notCalledSpyFn} = this.createSpy();
 
