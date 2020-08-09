@@ -9,14 +9,24 @@ export default class ExpectationTest extends SimpleTest {
     return {spy: new Spy(object, 'isASpy'), spiedFn: object.isASpy};
   }
 
-  testToEqual() {
+  testToBe() {
     this.failIfThrows(() => new Expectation(5).toEqual(5));
     this.failIfNotThrows(() => new Expectation(5).toEqual(6));
   }
 
-  testNotToEqual() {
+  testNotToBe() {
     this.failIfThrows(() => new Expectation(5).not.toEqual(6));
     this.failIfNotThrows(() => new Expectation(5).not.toEqual(5));
+  }
+
+  testToEqual() {
+    this.failIfThrows(() => new Expectation([5, 3]).toEqual([5, 3]));
+    this.failIfNotThrows(() => new Expectation([5, 3]).toEqual([5, 4]));
+  }
+
+  testNotToEqual() {
+    this.failIfThrows(() => new Expectation([5, 3]).not.toEqual([5, 4]));
+    this.failIfNotThrows(() => new Expectation([5, 3]).not.toEqual([5, 3]));
   }
 
   testToThrow() {
@@ -175,6 +185,32 @@ export default class ExpectationTest extends SimpleTest {
         () => new Expectation(spiedFn).not.toHaveBeenCalledWith('a'));
     this.failIfNotThrows(
         () => new Expectation(spiedFn).not.toHaveBeenCalledWith('b'));
+  }
+
+  testToBeNull() {
+    let a = null, b: string = 'hi', c = undefined;
+    this.failIfThrows(() => new Expectation(a).toBeNull());
+    this.failIfNotThrows(() => new Expectation(b).toBeNull());
+    this.failIfNotThrows(() => new Expectation(c).toBeNull());
+  }
+
+  testNotToBeNull() {
+    let a = null, b: string = 'hi', c = undefined;
+    this.failIfThrows(() => new Expectation(b).not.toBeNull());
+    this.failIfThrows(() => new Expectation(c).not.toBeNull());
+    this.failIfNotThrows(() => new Expectation(a).not.toBeNull());
+  }
+
+  testToBeDefined() {
+    let a: string, b: string = 'hi';
+    this.failIfThrows(() => new Expectation(b).toBeDefined());
+    this.failIfNotThrows(() => new Expectation(a).toBeDefined());
+  }
+
+  testNotToBeDefined() {
+    let a: string, b: string = 'hi';
+    this.failIfThrows(() => new Expectation(a).not.toBeDefined());
+    this.failIfNotThrows(() => new Expectation(b).not.toBeDefined());
   }
 
   testToBeUndefined() {

@@ -4,7 +4,9 @@ import SpyTest from './spy_test';
 import TesterTest from './tester_test';
 
 export function runFrameworkTests(): string {
-  return SimpleTestRunner.run();
+  const result = SimpleTestRunner.run();
+  Logger.log(result);
+  return result;
 }
 
 export default class SimpleTestRunner {

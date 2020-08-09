@@ -14,6 +14,15 @@ export class Expectation<T> {
     this.notString = this.isInverse ? 'not ' : '';
   }
 
+  toBe(expected: T) {
+    const equals = this.actual === expected;
+    if (equals && this.isInverse) {
+      throw new Error(`Expected anything but ${expected}.`);
+    } else if (!equals && !this.isInverse) {
+      throw new Error(`Expected ${expected}, got ${this.actual}.`);
+    }
+  }
+
   toEqual(expected: T) {
     const equals = Util.equals(this.actual, expected);
     if (equals && this.isInverse) {
@@ -135,6 +144,19 @@ export class Expectation<T> {
       throw new Error(
           `Expected ${spy} ${this.notString}to have been called ` +
           `with the given parameters.`);
+    }
+  }
+
+  toBeNull() {
+    if (this.isInverse === (this.actual === null)) {
+      throw new Error(`Expected ${this.actual} ${this.notString}to be null.`);
+    }
+  }
+
+  toBeDefined() {
+    if (this.isInverse === (this.actual !== undefined)) {
+      throw new Error(
+          `Expected ${this.actual} ${this.notString}to be defined.`);
     }
   }
 
