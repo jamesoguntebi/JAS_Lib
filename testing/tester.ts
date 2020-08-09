@@ -1,6 +1,8 @@
+import {KeysOfType} from '../types';
+import {Util} from '../util';
+
 import {Expectation, SpyMatcher} from './expectation';
 import {Spy} from './spy';
-import {Util} from './util';
 
 export class Tester {
   static readonly ERROR_NAME = 'TesterError';
@@ -174,8 +176,8 @@ export class Tester {
     return new Expectation(actual);
   }
 
-  spyOn<TObj, TProp extends keyof TObj>(object: TObj, method: TProp):
-      Spy<TObj, TProp> {
+  spyOn<TObj, TProp extends KeysOfType<TObj, Function>>(
+      object: TObj, method: TProp): Spy<TObj, TProp> {
     if (typeof object[method] !== 'function') {
       this.throwTesterError('Can only spy on functions');
     }

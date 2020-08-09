@@ -1,5 +1,6 @@
+import {Util} from '../util';
+
 import {Spy} from './spy';
-import {Util} from './util';
 
 export class Expectation<T> {
   /** The inverse of this expectation. */

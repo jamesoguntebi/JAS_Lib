@@ -67,7 +67,7 @@ export class TestRunner {
 }
 
 export interface Test {
-  name: string;
+  readonly name: string;
   run: (t: Tester) => void;
 }
 

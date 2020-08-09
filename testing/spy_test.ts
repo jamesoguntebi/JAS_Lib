@@ -1,6 +1,7 @@
+import {Util} from '../util';
+
 import SimpleTest from './_simple_test';
 import {Spy} from './spy';
-import {Util} from './util';
 
 export default class SpyTest extends SimpleTest {
   private createSpy(targetFn?: Function):

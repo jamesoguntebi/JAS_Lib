@@ -1,4 +1,6 @@
-export class Spy<TObj, TProp extends keyof TObj> {
+import {KeysOfType} from '../types';
+
+export class Spy<TObj, TProp extends KeysOfType<TObj, Function>> {
   // This type makes the compiler unhappy. Fix:
   // https://stackoverflow.com/questions/44110641
   static isSpy(object: unknown): object is {[Spy.MARKER]: Spy<any, any>} {
