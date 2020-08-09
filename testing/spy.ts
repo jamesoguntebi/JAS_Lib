@@ -8,7 +8,7 @@ export class Spy<TObj, TProp extends KeysOfType<TObj, Function>> {
   }
 
   static assertSpy(object: unknown): Spy<any, any> {
-    if (!Spy.isSpy(object)) throw new Error('Object is not a spy.');
+    if (!Spy.isSpy(object)) throw new Error(`Object '${object}' is not a spy.`);
     return object[Spy.MARKER];
   }
 
