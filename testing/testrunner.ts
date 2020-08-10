@@ -33,9 +33,10 @@ export class TestRunner {
       failureTotal += failureCount;
       const runTime = `(in ${Date.now() - testStartTime} ms)`;
       if (!failureCount) {
-        outputTotal.push(`${test.name} ✓ ${runTime}`);
+        outputTotal.push(`${test.constructor.name} ✓ ${runTime}`);
       } else {
-        outputTotal.push(`${test.name} - ${failureCount} failures ${runTime}`);
+        outputTotal.push(
+            `${test.constructor.name} - ${failureCount} failures ${runTime}`);
       }
       if (failureCount || showSuccesses) outputTotal.push(...output, '');
     }
@@ -67,7 +68,6 @@ export class TestRunner {
 }
 
 export interface Test {
-  readonly name: string;
   run: (t: Tester) => void;
 }
 
