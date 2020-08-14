@@ -94,6 +94,14 @@ class FakeGmailThread extends Fake<GmailThread> {
     return (this.params.messages ?? [])
         .map(messageParams => new FakeGmailMessage(messageParams).fake());
   }
+
+  getMessageCount(): number {
+    return this.params.messages?.length || 0;
+  }
+
+  getFirstMessageSubject(): string {
+    return this.params.messages[0]?.subject || '';
+  }
 }
 
 interface GmailThreadParams {
