@@ -43,7 +43,7 @@ export class SomeTest implements JASLib.Test {
 ## Updates
 
 ```
-$ rm jas_lib.* && tsc
+$ rm jas_lib.* && tsc # or maybe `npx tsc`
 $ clasp version
 ```
 

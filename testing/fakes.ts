@@ -69,7 +69,7 @@ class FakeGmailThread extends Fake<GmailThread> {
 
   constructor(private readonly params: GmailThreadParams) {
     super();
-    this.id = String(Math.random());
+    this.id = params.id || String(Math.random());
   }
 
   getId(): string {
@@ -105,12 +105,20 @@ class FakeGmailThread extends Fake<GmailThread> {
 }
 
 interface GmailThreadParams {
+  id?: string;
   messages?: GmailMessageParams[];
 }
 
 class FakeGmailMessage extends Fake<GmailMessage> {
+  private readonly id: string;
+
   constructor(private readonly params: GmailMessageParams) {
     super();
+    this.id = params.id || String(Math.random());
+  }
+
+  getId(): string {
+    return this.id;
   }
 
   getDate(): Date {
@@ -131,6 +139,7 @@ class FakeGmailMessage extends Fake<GmailMessage> {
 }
 
 export interface GmailMessageParams {
+  id?: string;
   date?: Date;
   from?: string;
   plainBody?: string;
