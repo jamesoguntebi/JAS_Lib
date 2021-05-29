@@ -9,7 +9,8 @@ class Fake<T> {
 }
 
 export class FakeGmailApp {
-  private static labelMap: Map<string, FakeGmailLabel>;
+  private static labelMap: Map<string, FakeGmailLabel> = new Map();
+  private static searchResults: GmailThread[] = [];
 
   static setData(params: GmailAppParams) {
     FakeGmailApp.labelMap = new Map(
@@ -23,10 +24,20 @@ export class FakeGmailApp {
     const label = FakeGmailApp.labelMap.get(name)?.fake();
     return label;
   }
+
+  static setSearchResults(searchResults: GmailThreadParams[]) {
+    FakeGmailApp.searchResults =
+        searchResults.map(params => new FakeGmailThread(params).fake());
+  }
+
+  static search(query: string): GmailThread[] {
+    return FakeGmailApp.searchResults;
+  }
 }
 
 interface GmailAppParams {
   labels?: GmailLabelParams[];
+  unlabeledThreads?: GmailThreadParams[];
 }
 
 class FakeGmailLabel extends Fake<GmailLabel> {
@@ -130,7 +141,7 @@ class FakeGmailMessage extends Fake<GmailMessage> {
   }
 
   getPlainBody(): string {
-    return this.params.plainBody ?? 'Unset subject';
+    return this.params.plainBody ?? 'Unset body';
   }
 
   getSubject(): string {
