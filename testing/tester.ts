@@ -206,9 +206,9 @@ export class Tester {
 
     return {
       successCount: this.currentDescriptionContext.successCount,
-          failureCount: this.currentDescriptionContext.failureCount,
-          output: this.currentDescriptionContext.output,
-    }
+      failureCount: this.currentDescriptionContext.failureCount,
+      output: this.currentDescriptionContext.output,
+    };
   }
 
   private indent() {

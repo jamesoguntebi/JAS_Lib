@@ -5,3 +5,5 @@ api*
 .git*
 .git/*
 .git/**/*
+package.json
+**/node_modules/**

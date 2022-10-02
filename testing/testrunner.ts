@@ -10,7 +10,7 @@ export class TestRunner {
     suppressLogs = true,
     showSuccesses = true,
     testerClass = Tester,
-  }: TestRunnerOptions) {
+  }: TestRunnerOptions): TestRunnerResult {
     // Suppress logs inside tests.
     const storedLogFn = Logger.log;
     if (suppressLogs) {
@@ -41,10 +41,12 @@ export class TestRunner {
       if (failureCount || showSuccesses) outputTotal.push(...output, '');
     }
 
+    const runTimeMs = Date.now() - startTime;
+
     outputTotal.push('');
     outputTotal.push(
         `Total -- ${TestRunner.getStats(successTotal, failureTotal)} ` +
-        `(in ${Date.now() - startTime} ms)`);
+        `(in ${runTimeMs} ms)`);
     outputTotal.push('');
 
     if (suppressLogs) Logger.log = storedLogFn;
@@ -60,6 +62,8 @@ export class TestRunner {
         ].join('\n'));
       }
     }
+
+    return {failureTotal, runTimeMs, successTotal};
   }
 
   private static getStats(success: number, failure: number): string {
@@ -75,4 +79,10 @@ export interface TestRunnerOptions {
   suppressLogs?: boolean;
   showSuccesses?: boolean;
   testerClass?: typeof Tester;
+}
+
+export interface TestRunnerResult {
+  failureTotal: number;
+  runTimeMs: number;
+  successTotal: number;
 }

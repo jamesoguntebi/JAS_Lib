@@ -47,7 +47,7 @@ export class Spy<TObj, TProp extends KeysOfType<TObj, Function>> {
     const objectString = this.object['constructor']['name'] === 'Function' ?
         this.object['name'] :
         this.object['constructor']['name'];
-    return `${objectString}.${this.property}`;
+    return `${objectString}.${String(this.property)}`;
   }
 }
 
